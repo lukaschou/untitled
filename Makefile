@@ -1,4 +1,4 @@
 CC = gcc
 
-clicker: clicker.c
-	$(CC) clicker.c -o clicker -Wall -Wextra -pedantic -std=c99
+game: game.c
+	$(CC) game.c -o game -Wall -Wextra -pedantic -std=c99
