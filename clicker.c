@@ -1,3 +1,4 @@
+#include <sys/resource.h>
 #include <termios.h>
 #include <ctype.h>
 #include <stdio.h>
@@ -35,7 +36,6 @@ void enable_raw_mode() {
     raw.c_lflag &= ~(ECHO | ICANON | ISIG | IEXTEN);
     raw.c_cc[VMIN] = 0;
     raw.c_cc[VTIME] = 1;
-
     if (tcsetattr(STDIN_FILENO, TCSAFLUSH, &raw) == -1) 
         die("tcsetattr");
 }
@@ -81,5 +81,6 @@ int main() {
     while (1) {
         processKeyPress();
     }
+    printf("Exiting program...");
     return EXIT_SUCCESS;
 }
