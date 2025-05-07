@@ -1,38 +1,38 @@
-#include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
+#include <string.h>
 
-#define MAX_INPUT_SIZE 1024
+#define MAX_INPUT_SIZE 5
 
-void print_options(char *options[], int num_options) {
-    for (int i = 0; i < num_options; i++) {
-        printf("%d: %s\n", i+1, options[i]);
+void display_prompt(void) {
+    printf(">");
+}
+
+void read_input(char input[MAX_INPUT_SIZE]) {
+    if (!fgets(input, MAX_INPUT_SIZE, stdin)) {
+        if (feof(stdin)) {
+            // Ignore EOF char
+            clearerr(stdin);
+        } else {
+            perror("fgets");
+            exit(EXIT_FAILURE);
+        }
+    }
+
+    // Ignore overflowed data
+    int len = strlen(input);
+    if (len > 0 && input[len - 1] != '\n') {
+        int c;
+        while ((c = getchar()) != '\n' && c != EOF);
     }
 }
 
-int read_input(char input[MAX_INPUT_SIZE]) {
-  if (fgets(input, MAX_INPUT_SIZE, stdin) == NULL) {
-    if (feof(stdin)) {
-        return 0;
-    } else if (ferror(stdin) && errno != EINTR) {
-        perror("fgets");
-        exit(EXIT_FAILURE);
+int main(void) {
+    char input[MAX_INPUT_SIZE];
+    // Before main loop might want menu at some point (start game, etc.)
+    while(1) {
+        display_prompt();
+        read_input(input);
+        // TODO: Execute command function
     }
-  }
-  return 1;
-}
-
-int read_options(char *options[], int num_options) {
-  char input[MAX_INPUT_SIZE];
-  print_options(options, num_options);
-  read_input(input);
-  strtol();
-}
-
-int main() {
-  while (1) {
-    char *options[] = {"apple", "banana", "orange"};
-    read_options(options, 3);
-  }
 }

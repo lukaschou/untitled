@@ -1,0 +1,52 @@
+- Idle / clicker game
+- City builder
+- Survival game
+- Heist
+- Time loop story / puzzle game
+- Manage space fleet
+- Celestial game
+- Vending machine game
+
+Fleet Management Game (Space freight company)
+    - Proceduraly generate weighted graph of
+        planets with different resources and civilizations
+        and distances from each other
+    - Take orders
+    - Game loop:
+        - Time / Resources
+            - Orders that need to be filled in x days
+            - Need to use resources to get resources and travel
+            - Manipulate time (?)
+                - Maybe implement time system later
+        - Start with one ship and simple orders, can expand from there
+            - Increase ships
+                - Ships need crew, crew can have skills
+                - Crew needs pay
+                - Can hire people/aliens from other planets
+                    - Later implement aura where some civilizations dont fw u
+    - Balance getting resources w/ buying maybe crafting stuff to fulfill orders
+    - Manage time to make / travel / order, multiple ships might have to be working
+        to fulfill an order
+    - Space pirates
+    - Reputation system
+
+
+FIRST TASKS
+- Where you are
+- Where you can travel to
+- Be able to travel
+
+- Generating some weighted graph
+    - Start out pre-defined (not procedural)
+    - Each node has a planet name
+- Writing a shell-like utility
+
+1) UI basics
+- Letter about you inheriting the business or some origin story (TODO)
+- Order log (see and choose available orders)
+    - After choosing need to assign order / cargo to ship(s)
+- 'map' command to see solar system
+
+from 100km---------------a----------10km to
+from 100km-------a-------------------10km to
+from 100km---------------a----------10km to
