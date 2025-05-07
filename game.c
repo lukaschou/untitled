@@ -30,6 +30,12 @@ void read_input(char input[MAX_INPUT_SIZE]) {
         }
     }
 
+    if (feof(stdin)) {
+        clearerr(stdin);
+        printf("\n");
+        fflush(stdout);
+        return;
+    }
     int len = strlen(input);
     // Ignore overflowed data
     if (len > 0 && input[len - 1] != '\n') {
