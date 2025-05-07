@@ -2,18 +2,18 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define MAX_INPUT_SIZE 5
+#define MAX_INPUT_SIZE 1024
 
 void clear_screen(void) {
-#ifdef _WIN32 // This will need testing unless we don't want to care about windows
-    sytem("cls");
-#else
-    system("clear");
-#endif
+    printf("\033[1;1H\033[2J");
 }
 
 void display_prompt(void) {
     printf("> ");
+    if (fflush(stdout)) {
+        perror("fflush");
+        exit(EXIT_FAILURE);
+    }
 }
 
 void read_input(char input[MAX_INPUT_SIZE]) {
@@ -21,14 +21,17 @@ void read_input(char input[MAX_INPUT_SIZE]) {
         if (feof(stdin)) {
             // Ignore EOF char
             clearerr(stdin);
+            printf("\n");
+            fflush(stdout);
+            return;
         } else {
             perror("fgets");
             exit(EXIT_FAILURE);
         }
     }
 
-    // Ignore overflowed data
     int len = strlen(input);
+    // Ignore overflowed data
     if (len > 0 && input[len - 1] != '\n') {
         int c;
         while ((c = getchar()) != '\n' && c != EOF);
