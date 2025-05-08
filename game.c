@@ -49,6 +49,9 @@ void read_input(char input[MAX_INPUT_SIZE]) {
 }
 
 // Command must be freed after use (struct and argv)
+// Made this a pointer to show that it needs to be free
+// But it's small enough it might not matter
+// Just would be hard to remember that argv and its elements must be freed as well
 struct Command* parse_input(char input[MAX_INPUT_SIZE]) {
     struct Command *cmd = malloc(sizeof(struct Command));
     if (!cmd) {
@@ -101,6 +104,13 @@ void free_command(struct Command *cmd) {
     }
 }
 
+// This is just to test idk if we want to do this
+void execute_command(struct Command *cmd) {
+    if (strcmp(cmd->argv[0], "help") == 0) {
+        printf("%s", "Help was typed\n");
+    }
+}
+
 int main(void) {
     char input[MAX_INPUT_SIZE];
     clear_screen();
@@ -114,6 +124,7 @@ int main(void) {
         for (int i = 0; i < cmd->argc; i++) {
             printf("Argv[%d]: %s\n", i, cmd->argv[i]);
         }
-        free(cmd);
+        execute_command(cmd);
+        free_command(cmd);
     }
 }
