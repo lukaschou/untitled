@@ -1,2 +1,18 @@
-game
-*.out
+# CMake build directories
+/build/
+CMakeFiles/
+CMakeCache.txt
+Makefile
+cmake_install.cmake
+CTestTestfile.cmake
+
+# Compiled object files
+*.o
+
+# CMake generated files
+compile_commands.json
+CMakeLists.txt.user
+*.cmake
+
+# IDE Files
+.vscode/
