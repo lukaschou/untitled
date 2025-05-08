@@ -9,6 +9,33 @@ struct Command {
     int argc;
     char **argv;
 };
+/* TEST COMMAND MAPPING */
+typedef void (*CommandFunc)(struct Command *cmd);
+struct CommandPair {
+    const char* name;
+    CommandFunc func;
+};
+
+void help_command(struct Command *cmd) {
+    printf("Help command was typed!\n");
+}
+
+struct CommandPair command_map[] = {
+    {"help", help_command},
+    {NULL, NULL}
+};
+
+void execute_command(struct Command *cmd) {
+    if (cmd->argc == 0) return;
+    for (int i = 0; command_map[i].name != NULL; i++) {
+        if (strcmp(cmd->argv[0], command_map[i].name) == 0) {
+            command_map[i].func(cmd);
+            return;
+        }
+    }
+    printf("%s", "No matching command found");
+}
+/* END TEST COMMAND MAPPING*/
 
 void clear_screen(void) { printf("\033[1;1H\033[2J"); }
 
@@ -101,13 +128,6 @@ void free_command(struct Command *cmd) {
         }
         free(cmd->argv);
         free(cmd);
-    }
-}
-
-// This is just to test idk if we want to do this
-void execute_command(struct Command *cmd) {
-    if (strcmp(cmd->argv[0], "help") == 0) {
-        printf("%s", "Help was typed\n");
     }
 }
 
