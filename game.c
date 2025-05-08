@@ -96,7 +96,7 @@ struct Command* parse_input(char input[MAX_INPUT_SIZE]) {
 
 void free_command(struct Command *cmd) {
     if (cmd) {
-        for (int i = 0; i < MAX_COMMAND_ARGS; i++) {
+        for (int i = 0; i < cmd->argc; i++) {
             free(cmd->argv[i]);
         }
         free(cmd->argv);
@@ -111,6 +111,8 @@ void execute_command(struct Command *cmd) {
     }
 }
 
+// Idea - map that maps commands to function references for execution
+//
 int main(void) {
     char input[MAX_INPUT_SIZE];
     clear_screen();
