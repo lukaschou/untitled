@@ -48,11 +48,17 @@ void read_input(char input[MAX_INPUT_SIZE]) {
     }
 }
 
-struct Command parse_input(char input[MAX_INPUT_SIZE]) {
-    struct Command cmd;
-    cmd.argc = 0;
-    cmd.argv = malloc(sizeof(char *) * MAX_COMMAND_ARGS);
-    if (!cmd.argv) {
+// Command must be freed after use (struct and argv)
+struct Command* parse_input(char input[MAX_INPUT_SIZE]) {
+    struct Command *cmd = malloc(sizeof(struct Command));
+    if (!cmd) {
+        perror("malloc");
+        exit(EXIT_FAILURE);
+    }
+
+    cmd->argc = 0;
+    cmd->argv = malloc(sizeof(char *) * MAX_COMMAND_ARGS);
+    if (!cmd->argv) {
         perror("malloc");
         exit(EXIT_FAILURE);
     }
@@ -70,19 +76,29 @@ struct Command parse_input(char input[MAX_INPUT_SIZE]) {
         if (*token == '\0')
             continue;
 
-        cmd.argv[cmd.argc] = strdup(token);
-        if (!cmd.argv[cmd.argc]) {
+        cmd->argv[cmd->argc] = strdup(token);
+        if (!cmd->argv[cmd->argc]) {
             perror("strdup");
             exit(EXIT_FAILURE);
         }
-        cmd.argc++;
+        cmd->argc++;
 
-        if (cmd.argc >= MAX_COMMAND_ARGS)
+        if (cmd->argc >= MAX_COMMAND_ARGS)
             break;
     }
 
     free(to_free);
     return cmd;
+}
+
+void free_command(struct Command *cmd) {
+    if (cmd) {
+        for (int i = 0; i < MAX_COMMAND_ARGS; i++) {
+            free(cmd->argv[i]);
+        }
+        free(cmd->argv);
+        free(cmd);
+    }
 }
 
 int main(void) {
@@ -92,12 +108,12 @@ int main(void) {
     while (1) {
         display_prompt();
         read_input(input);
-        struct Command cmd = parse_input(input);
+        struct Command *cmd = parse_input(input);
 
-        printf("Argc: %d\n", cmd.argc);
-        for (int i = 0; i < cmd.argc; i++) {
-            printf("Argv[%d]: %s\n", i, cmd.argv[i]);
+        printf("Argc: %d\n", cmd->argc);
+        for (int i = 0; i < cmd->argc; i++) {
+            printf("Argv[%d]: %s\n", i, cmd->argv[i]);
         }
-        // TODO: Execute command function
+        free(cmd);
     }
 }
