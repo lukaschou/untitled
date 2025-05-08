@@ -3,6 +3,7 @@
 #include <string.h>
 
 #define MAX_INPUT_SIZE 1024
+#define MAX_COMMAND_ARGS 10
 
 struct Command {
     int argc;
@@ -42,8 +43,15 @@ void read_input(char input[MAX_INPUT_SIZE]) {
     }
 }
 
-void parse_input(char input[MAX_INPUT_SIZE]) {
-    struct Command c;
+struct Command parse_input(char input[MAX_INPUT_SIZE]) {
+    struct Command cmd;
+    cmd.argc = 0;
+    cmd.argv = malloc(sizeof(char *) * MAX_COMMAND_ARGS);
+    if (!cmd.argv) {
+        perror("malloc");
+        exit(EXIT_FAILURE);
+    }
+
     char *input_cpy = strdup(input);
     if (!input_cpy) {
         perror("strdup");
@@ -51,22 +59,29 @@ void parse_input(char input[MAX_INPUT_SIZE]) {
     }
 
     char *to_free = input_cpy;
-    char *argv[10]; // max args = 10
     char *token;
-    int argc = 0;
 
     while ((token = strsep(&input_cpy, " "))) {
         if (*token == '\0')
             continue;
-        argv[argc++] = token;
-        if (argc >= 10) break;
+
+        cmd.argv[cmd.argc] = strdup(token);
+        if (!cmd.argv[cmd.argc]) {
+            perror("strdup");
+            exit(EXIT_FAILURE);
+        }
+        cmd.argc++;
+
+        if (cmd.argc >= MAX_COMMAND_ARGS)
+            break;
     }
 
-    for(int i = 0; i < argc; i++) {
-        printf("arg %d: %s\n", i, argv[i]);
+    for (int i = 0; i < cmd.argc; i++) {
+        printf("arg %d: %s\n", i, cmd.argv[i]);
     }
 
     free(to_free);
+    return cmd;
 }
 
 int main(void) {
