@@ -41,6 +41,11 @@ void read_input(char input[MAX_INPUT_SIZE]) {
         while ((c = getchar()) != '\n' && c != EOF)
             ;
     }
+    
+    // This trims the new line character so we don't have trailing space when parsing later
+    if (len > 0 && input[len - 1] == '\n') {
+        input[len - 1] = '\0';
+    }
 }
 
 struct Command parse_input(char input[MAX_INPUT_SIZE]) {
@@ -76,10 +81,6 @@ struct Command parse_input(char input[MAX_INPUT_SIZE]) {
             break;
     }
 
-    for (int i = 0; i < cmd.argc; i++) {
-        printf("arg %d: %s\n", i, cmd.argv[i]);
-    }
-
     free(to_free);
     return cmd;
 }
@@ -91,8 +92,12 @@ int main(void) {
     while (1) {
         display_prompt();
         read_input(input);
-        printf("%s", input);
-        parse_input(input);
+        struct Command cmd = parse_input(input);
+
+        printf("Argc: %d\n", cmd.argc);
+        for (int i = 0; i < cmd.argc; i++) {
+            printf("Argv[%d]: %s\n", i, cmd.argv[i]);
+        }
         // TODO: Execute command function
     }
 }
