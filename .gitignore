@@ -16,3 +16,5 @@ CMakeLists.txt.user
 
 # IDE Files
 .vscode/
+
+.cache/

@@ -50,3 +50,23 @@ FIRST TASKS
 from 100km---------------a----------10km to
 from 100km-------a-------------------10km to
 from 100km---------------a----------10km to
+
+Easy things to do early:
+- Menu screen w/ start game
+- On start game get player name / choose company name? Also should figure out how to enforce + prompt when some character limit is reached.
+- After this, some sort of introduction w/ story + other notes
+
+Galaxy Implementation:
+- Use weighted graph to represent routes between planets. Hard code for now.
+- Eventually we could procedurally generate this
+	- How would we determine which planets have routes between them?
+- We will need to come up with a strategy to realistically portray distances between each planet
+	- For example if one planet close to another one and we know the distance to some third planet it will 
+	be obvious if edge weights are randomly calculated if the weight is massively lower than that of relative routes
+	- First probably popualte a matrix of some size and randomly populate planets within it. Then we can use these to calculate relative 
+	distances planets are away from each other
+
+
+
+
+
