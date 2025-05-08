@@ -7,16 +7,17 @@
 
 struct Command {
     int argc;
-    char **argv;
+    char *argv[MAX_COMMAND_ARGS];
 };
+
 /* TEST COMMAND MAPPING */
-typedef void (*CommandFunc)(struct Command *cmd);
+typedef void (*CommandFunc)(struct Command cmd);
 struct CommandPair {
     const char* name;
     CommandFunc func;
 };
 
-void help_command(struct Command *cmd) {
+void help_command(struct Command cmd) {
     printf("Help command was typed!\n");
 }
 
@@ -25,15 +26,15 @@ struct CommandPair command_map[] = {
     {NULL, NULL}
 };
 
-void execute_command(struct Command *cmd) {
-    if (cmd->argc == 0) return;
+void execute_command(struct Command cmd) {
+    if (cmd.argc == 0) return;
     for (int i = 0; command_map[i].name != NULL; i++) {
-        if (strcmp(cmd->argv[0], command_map[i].name) == 0) {
+        if (strcmp(cmd.argv[0], command_map[i].name) == 0) {
             command_map[i].func(cmd);
             return;
         }
     }
-    printf("%s", "No matching command found");
+    printf("%s", "No matching command found\n");
 }
 /* END TEST COMMAND MAPPING*/
 
@@ -49,13 +50,7 @@ void display_prompt(void) {
 
 void read_input(char input[MAX_INPUT_SIZE]) {
     if (!fgets(input, MAX_INPUT_SIZE, stdin)) {
-        if (feof(stdin)) {
-            // Ignore EOF char
-            clearerr(stdin);
-            printf("\n");
-            fflush(stdout);
-            return;
-        } else {
+        if (!feof(stdin)) {
             perror("fgets");
             exit(EXIT_FAILURE);
         }
@@ -72,32 +67,12 @@ void read_input(char input[MAX_INPUT_SIZE]) {
     if (len > 0 && input[len - 1] != '\n') {
         int c;
         while ((c = getchar()) != '\n' && c != EOF)
-            ;
-    }
-    
-    // This trims the new line character so we don't have trailing space when parsing later
-    if (len > 0 && input[len - 1] == '\n') {
-        input[len - 1] = '\0';
-    }
+            ; // blah blah blah
+    }    
 }
 
-// Command must be freed after use (struct and argv)
-// Made this a pointer to show that it needs to be free
-// But it's small enough it might not matter
-// Just would be hard to remember that argv and its elements must be freed as well
-struct Command* parse_input(char input[MAX_INPUT_SIZE]) {
-    struct Command *cmd = malloc(sizeof(struct Command));
-    if (!cmd) {
-        perror("malloc");
-        exit(EXIT_FAILURE);
-    }
-
-    cmd->argc = 0;
-    cmd->argv = malloc(sizeof(char *) * MAX_COMMAND_ARGS);
-    if (!cmd->argv) {
-        perror("malloc");
-        exit(EXIT_FAILURE);
-    }
+void parse_input(char input[MAX_INPUT_SIZE], struct Command *cmd) {
+    cmd->argc = 0; // Reset arg count
 
     char *input_cpy = strdup(input);
     if (!input_cpy) {
@@ -107,24 +82,21 @@ struct Command* parse_input(char input[MAX_INPUT_SIZE]) {
 
     char *to_free = input_cpy;
     char *token;
-
-    while ((token = strsep(&input_cpy, " "))) {
+    while ((token = strsep(&input_cpy, " \t\n"))) {
+        // Skip empty fields (multiple delims in a row)
         if (*token == '\0')
             continue;
-
-        cmd->argv[cmd->argc] = strdup(token);
-        if (!cmd->argv[cmd->argc]) {
+        // Copy our arg into the struct and increment count
+        if(!(cmd->argv[cmd->argc++] = strdup(token))) {
             perror("strdup");
             exit(EXIT_FAILURE);
         }
-        cmd->argc++;
-
+        // Ignore any arguments past our limit
         if (cmd->argc >= MAX_COMMAND_ARGS)
             break;
     }
 
-    free(to_free);
-    return cmd;
+    free(to_free); // Free copied input string
 }
 
 void free_command(struct Command *cmd) {
@@ -132,27 +104,21 @@ void free_command(struct Command *cmd) {
         for (int i = 0; i < cmd->argc; i++) {
             free(cmd->argv[i]);
         }
-        free(cmd->argv);
-        free(cmd);
     }
 }
 
 // Idea - map that maps commands to function references for execution
 //
 int main(void) {
+    struct Command cmd;
     char input[MAX_INPUT_SIZE];
     clear_screen();
     // Before main loop might want menu at some point (start game, etc.)
     while (1) {
         display_prompt();
         read_input(input);
-        struct Command *cmd = parse_input(input);
-
-        printf("Argc: %d\n", cmd->argc);
-        for (int i = 0; i < cmd->argc; i++) {
-            printf("Argv[%d]: %s\n", i, cmd->argv[i]);
-        }
+        parse_input(input, &cmd);
         execute_command(cmd);
-        free_command(cmd);
+        free_command(&cmd);
     }
 }
