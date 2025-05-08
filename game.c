@@ -55,7 +55,6 @@ void read_input(char input[MAX_INPUT_SIZE]) {
             exit(EXIT_FAILURE);
         }
     }
-
     if (feof(stdin)) {
         clearerr(stdin);
         printf("\n");
