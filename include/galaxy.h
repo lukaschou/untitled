@@ -7,6 +7,7 @@
 
 typedef struct {
     const char* name;
+    int coord[2];
 } Planet;
 
 void c_map(Command cmd);
