@@ -3,25 +3,30 @@
 #include <string.h>
 #include "command.h"
 #include "galaxy.h"
+#include "game_state.h"
 
 struct CommandPair {
     const char *name;
     CommandFunc func;
 };
 
-void help_command(Command cmd) { printf("Help command was typed!\n"); }
+void help_command(Command cmd, GameContext *ctx) { 
+    (void) cmd;
+    (void) ctx;
+    printf("Help command was typed!\n"); 
+}
 
 struct CommandPair command_map[] = {
     {"help", help_command},
     {"map", c_map},
 };
 
-void execute_command(Command cmd) {
+void execute_command(Command cmd, GameContext *ctx) {
     if (cmd.argc == 0)
         return;
     for (int i = 0; command_map[i].name != NULL; i++) {
         if (strcmp(cmd.argv[0], command_map[i].name) == 0) {
-            command_map[i].func(cmd);
+            command_map[i].func(cmd, ctx);
             return;
         }
     }
