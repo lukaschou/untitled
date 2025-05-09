@@ -24,7 +24,10 @@ void read_input(char input[MAX_INPUT_SIZE]) {
     if (feof(stdin)) {
         clearerr(stdin);
         printf("\n");
-        fflush(stdout);
+        if (fflush(stdout)) {
+            perror("fflush");
+            exit(EXIT_FAILURE);
+        }
         return;
     }
     int len = strlen(input);
