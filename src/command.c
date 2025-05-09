@@ -1,24 +1,25 @@
-#include <string.h>
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "command.h"
+#include "galaxy.h"
 
 struct CommandPair {
-    const char* name;
+    const char *name;
     CommandFunc func;
 };
 
-void help_command(Command cmd) {
-    printf("Help command was typed!\n");
-}
+void help_command(Command cmd) { printf("Help command was typed!\n"); }
 
 struct CommandPair command_map[] = {
     {"help", help_command},
+    {"gen_gal", generate_galaxy},
     {NULL, NULL}
 };
 
 void execute_command(Command cmd) {
-    if (cmd.argc == 0) return;
+    if (cmd.argc == 0)
+        return;
     for (int i = 0; command_map[i].name != NULL; i++) {
         if (strcmp(cmd.argv[0], command_map[i].name) == 0) {
             command_map[i].func(cmd);
@@ -44,7 +45,7 @@ void parse_input(char *input, Command *cmd) {
         if (*token == '\0')
             continue;
         // Copy our arg into the struct and increment count
-        if(!(cmd->argv[cmd->argc++] = strdup(token))) {
+        if (!(cmd->argv[cmd->argc++] = strdup(token))) {
             perror("strdup");
             exit(EXIT_FAILURE);
         }
@@ -63,4 +64,3 @@ void free_command(Command *cmd) {
         }
     }
 }
-

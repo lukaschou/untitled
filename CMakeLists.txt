@@ -6,6 +6,6 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 include_directories(include)
 
-file(GLOB SOURCES "src/*.c" "game.c" "galaxy.c" "orders.c")
+file(GLOB SOURCES "src/*.c" "game.c") 
 
 add_executable(untitled ${SOURCES})
