@@ -3,6 +3,13 @@
 
 #include "command.h"
 
-void generate_galaxy(Command cmd);
+#define MAP_SIZE 20
+
+typedef struct {
+    const char* name;
+} Planet;
+
+void c_map(Command cmd);
+void generate_galaxy();
 
 #endif

@@ -1,3 +1,4 @@
+#include "galaxy.h"
 #include "input.h"
 #include "command.h"
 
@@ -7,6 +8,7 @@ int main(void) {
     Command cmd;
     char input[MAX_INPUT_SIZE];
     clear_screen();
+    generate_galaxy();
     // Before main loop might want menu at some point (start game, etc.)
     while (1) {
         display_prompt();

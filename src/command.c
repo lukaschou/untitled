@@ -13,8 +13,7 @@ void help_command(Command cmd) { printf("Help command was typed!\n"); }
 
 struct CommandPair command_map[] = {
     {"help", help_command},
-    {"gen_gal", generate_galaxy},
-    {NULL, NULL}
+    {"map", c_map},
 };
 
 void execute_command(Command cmd) {
