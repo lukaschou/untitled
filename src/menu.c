@@ -10,8 +10,6 @@
 void draw_menu(void) {
     printf("Welcome to \033[1mSpace Freight\033[22m\n\n");
     printf("1. New Game\n");
-    printf("2. Continue\n");
-    printf("3. Settings\n\n");
     if (fflush(stdout)) {
         perror("fflush");
         exit(EXIT_FAILURE);
@@ -23,7 +21,7 @@ void draw_menu(void) {
  * Returns a long because strtol does, and who cares. If an invalid
  * value is received, clears the screen and displays the menu and prompt.
  */
-long get_menu_opt(long max_opts) {
+long get_menu_opt() {
     char input[MAX_INPUT_SIZE];
     long value = 0;
     int success;
@@ -37,13 +35,9 @@ long get_menu_opt(long max_opts) {
         errno = 0;
         value = strtol(input, &endptr, 10);
         if (errno || input[0] == '\0' || endptr[0] != '\0'
-            || value < 0 || value > max_opts) {
+            || value < 0 || value > MAX_OPTS) {
             success = 0;
             handle_invalid_opt();
-        }
-        if (fflush(stdout)) {
-            perror("fflush");
-            exit(EXIT_FAILURE);
         }
     } while (!success);
 
@@ -53,10 +47,6 @@ long get_menu_opt(long max_opts) {
 void handle_invalid_opt() {
     printf("Invalid option\n");
     printf("Press Enter to continue\n");
-    if (fflush(stdout)) {
-        perror("fflush");
-        exit(EXIT_FAILURE);
-    }
 
     char c;
     do {
@@ -76,15 +66,16 @@ void handle_invalid_opt() {
 }
 
 /* Executes a menu option. Option MUST be valid */
-void execute_opt(long opt) {
+void execute_opt(long opt, GameContext *ctx) {
     switch (opt) {
         case NEWGAME:
             printf("New game selected...\n");
+            ctx->current_game_state = STATE_PLAYING;
             break;
     }
 }
 
-void run_menu(void) {
+void run_menu(GameContext *ctx) {
     draw_menu();
-    execute_opt(get_menu_opt(1));
+    execute_opt(get_menu_opt(), ctx);
 }

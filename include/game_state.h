@@ -2,6 +2,7 @@
 #define GAME_STATE_H
 
 typedef enum {
+    STATE_MENU,
     STATE_PLAYING,
 } GameState;
 
