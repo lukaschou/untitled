@@ -9,8 +9,9 @@
 Planet *galaxy[MAP_SIZE][MAP_SIZE];
 
 /* Print a map and legend of surrounding planets */
-void c_map(Command cmd) {
+void c_map(Command cmd, GameContext *ctx) {
     (void) cmd;
+    (void) ctx;
     generate_galaxy();
 
     char legend = 'a';
