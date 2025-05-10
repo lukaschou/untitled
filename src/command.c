@@ -7,6 +7,7 @@
 
 /* Commands */
 void c_exit(Command cmd, GameContext *ctx) {
+    (void) cmd;
     ctx->running = 0;
     printf("Bye!\n");
 }
