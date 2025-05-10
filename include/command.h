@@ -15,6 +15,8 @@ typedef void (*CommandFunc)(Command cmd, GameContext *ctx);
 void parse_input(char *input, Command *cmd);
 void free_command(Command *cmd);
 void execute_command(Command cmd, GameContext *ctx);
-void help_command(Command cmd, GameContext *ctx);
+void c_exit(Command cmd, GameContext *ctx);
+void c_help(Command cmd, GameContext *ctx);
+
 
 #endif
