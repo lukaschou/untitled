@@ -30,7 +30,7 @@ void execute_command(Command cmd, GameContext *ctx) {
             return;
         }
     }
-    printf("%s", "No matching command found\n");
+    printf("Command not found: %s\n", cmd.argv[0]);
 }
 
 void parse_input(char *input, Command *cmd) {
