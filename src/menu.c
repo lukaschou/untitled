@@ -35,7 +35,7 @@ long get_menu_opt() {
         errno = 0;
         value = strtol(input, &endptr, 10);
         if (errno || input[0] == '\0' || endptr[0] != '\0'
-            || value < 0 || value > MAX_OPTS) {
+            || value < 1 || value > MAX_OPTS) {
             success = 0;
             handle_invalid_opt();
         }
