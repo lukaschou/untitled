@@ -5,10 +5,11 @@
 #include <stdio.h>
 
 int main(void) {
-    GameContext ctx = {STATE_MENU, 1};
+    GameContext ctx;
+    ctx.current_game_state = STATE_MENU;
+    ctx.running = 1;
 
     clear_screen();
-
     while (ctx.running) {
         switch (ctx.current_game_state) {
             case STATE_MENU:

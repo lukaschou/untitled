@@ -6,8 +6,6 @@
 #include <time.h>
 #include <math.h>
 
-Planet *galaxy[MAP_SIZE][MAP_SIZE];
-
 /* Print a map and legend of surrounding planets */
 void c_map(Command cmd, GameContext *ctx) {
     (void) cmd;
@@ -16,7 +14,7 @@ void c_map(Command cmd, GameContext *ctx) {
     char legend = 'a';
     for (int i = 0; i < MAP_SIZE; i++) {
         for (int j = 0; j < MAP_SIZE; j++) {
-            if (!galaxy[i][j]) {
+            if (!ctx->galaxy[i][j]) {
                 printf("* ");
             } else {
                 printf("\033[1;31m%c\033[0m ", legend++);
@@ -29,8 +27,8 @@ void c_map(Command cmd, GameContext *ctx) {
     char key = 'a';
     for (int i = 0; i < MAP_SIZE; i++) {
         for (int j = 0; j < MAP_SIZE; j++) {
-            if (galaxy[i][j]) {
-                printf("\033[1;31m%c\033[0m: %s\n", key++, galaxy[i][j]->name);
+            if (ctx->galaxy[i][j]) {
+                printf("\033[1;31m%c\033[0m: %s\n", key++, ctx->galaxy[i][j]->name);
             }
         }
     }
@@ -42,8 +40,8 @@ void c_map(Command cmd, GameContext *ctx) {
 }
 
 // THIS IS A TEMP FUNC WITH HARD CODED SHIT
-void generate_galaxy() {
-    memset(galaxy, 0, sizeof(galaxy));
+void generate_galaxy(GameContext *ctx) {
+    memset(ctx->galaxy, 0, sizeof(ctx->galaxy));
 
     const char* planets_names[] = {
         "Jupiter",
@@ -74,7 +72,6 @@ void generate_galaxy() {
 
         int too_close = 0;
         for (int i = 0; i < placed; i++) {
-            // printf("i: %d\n", i);
             Planet *p = planets[i];
             double distance = sqrt(pow(p->coord[0] - x, 2) + pow(p->coord[1] - y, 2));
             if (distance < min_distance) {
@@ -93,9 +90,8 @@ void generate_galaxy() {
             p->coord[0] = x;
             p->coord[1] = y;
             planets[placed] = p;
-            galaxy[x][y] = p;
+            ctx->galaxy[x][y] = p;
             placed++;
-            // printf("Placing at %d, %d\n", x, y);
         }
     }
 }
