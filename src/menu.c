@@ -10,6 +10,7 @@
 void draw_menu(void) {
     printf("Welcome to \033[1mSpace Freight\033[22m\n\n");
     printf("1. New Game\n");
+    printf("\n");
     if (fflush(stdout)) {
         perror("fflush");
         exit(EXIT_FAILURE);

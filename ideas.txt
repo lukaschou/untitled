@@ -88,3 +88,11 @@ Enter option:
 PLAYER =============================
 1. Location - Different color on legend for "home planet"
 2. Name
+
+INTRO ==============================
+Ideas:
+- You are an employee at some shipping conglomerate OR 
+- Creditors are on you back, you take out a loan to start a shipping conglomerate. Part of the early game could be carefully managing your finances to pay off your borrowed money OR
+- Maybe you inherit a failing business? And your in charge of getting it back on it's feet
+
+- Years could also include fiscal quarters (2638, Q3)

@@ -2,7 +2,6 @@
 #include "input.h"
 #include "intro.h"
 #include "menu.h" 
-#include <stdio.h>
 
 int main(void) {
     GameContext ctx;

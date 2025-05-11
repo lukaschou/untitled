@@ -92,6 +92,19 @@ void generate_galaxy(GameContext *ctx) {
             planets[placed] = p;
             ctx->galaxy[x][y] = p;
             placed++;
+        } else {
+            attempts++;
         }
+    }
+    
+    // If generation fails free memory and attempt to regenerate
+    // Statistically with our current paramaters this would be extremely unlikely to be needed
+    if (placed < num_planets) {
+        for (int i = 0; i < placed; i++) {
+            free(planets[i]);
+        }
+        // This COULD be dangerous but stack overflow is EXTREMELY unlikely unless we are generating the map
+        // with bad parameters
+        generate_galaxy(ctx);
     }
 }
