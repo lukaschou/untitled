@@ -69,7 +69,7 @@ void handle_invalid_opt() {
 void execute_opt(long opt, GameContext *ctx) {
     switch (opt) {
         case NEWGAME:
-            ctx->current_game_state = STATE_PLAYING;
+            ctx->current_game_state = STATE_INTRO;
             break;
     }
 }
