@@ -66,7 +66,21 @@ Galaxy Implementation:
 	- First probably popualte a matrix of some size and randomly populate planets within it. Then we can use these to calculate relative 
 	distances planets are away from each other
 
+====================================================================================================
+Menu stuff
+    - To start: Clear screen, display welcome text, provide numbered list of options
+        - For now, only 1 option: Start game
+        - If they give an invalid option, let them know and prompt again
+    - Clear screen before while loop (this will be out "boot" func)
+        - Game state starts as "menu"
+            - This way users can go back to the menu if they wish
+        - Menu state calls function that does the above (to start)
+    - Future: Raw mode with cool graphic and choose options via arrow keys
 
 
+Welcome to Space Freight
 
+1. New Game
+2. Load Game
 
+Enter option: 

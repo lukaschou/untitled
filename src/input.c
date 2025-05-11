@@ -25,6 +25,7 @@ void read_input(char input[MAX_INPUT_SIZE]) {
     if (feof(stdin)) {
         clearerr(stdin);
         printf("\n");
+        input[0] = '\0';
         if (fflush(stdout)) {
             perror("fflush");
             exit(EXIT_FAILURE);

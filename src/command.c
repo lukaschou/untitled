@@ -5,25 +5,32 @@
 #include "galaxy.h"
 #include "game_state.h"
 
-struct CommandPair {
-    const char *name;
-    CommandFunc func;
-};
+/* Commands */
+void c_exit(Command cmd, GameContext *ctx) {
+    (void) cmd;
+    ctx->running = 0;
+    printf("Bye!\n");
+}
 
-void help_command(Command cmd, GameContext *ctx) { 
+void c_help(Command cmd, GameContext *ctx) { 
     (void) cmd;
     (void) ctx;
     printf("Help command was typed!\n"); 
 }
 
+struct CommandPair {
+    const char *name;
+    CommandFunc func;
+};
 struct CommandPair command_map[] = {
-    {"help", help_command},
+    {"exit", c_exit},
+    {"help", c_help},
     {"map", c_map},
 };
 
 void execute_command(Command cmd, GameContext *ctx) {
     if (cmd.argc == 0)
-        return;
+       return;
     for (int i = 0; command_map[i].name != NULL; i++) {
         if (strcmp(cmd.argv[0], command_map[i].name) == 0) {
             command_map[i].func(cmd, ctx);

@@ -12,7 +12,6 @@ Planet *galaxy[MAP_SIZE][MAP_SIZE];
 void c_map(Command cmd, GameContext *ctx) {
     (void) cmd;
     (void) ctx;
-    generate_galaxy();
 
     char legend = 'a';
     for (int i = 0; i < MAP_SIZE; i++) {
