@@ -14,8 +14,12 @@ void display_prompt(void) {
     }
 }
 
-void read_input(char input[MAX_INPUT_SIZE]) {
-    if (!fgets(input, MAX_INPUT_SIZE, stdin)) {
+/* 
+ * Reads max_size chars from stdin into input. If
+ * more than max_size chars are read, -1 is returned.
+ */
+int read_input(char *input, int max_size) {
+    if (!fgets(input, max_size, stdin)) {
         if (!feof(stdin)) {
             perror("fgets");
             exit(EXIT_FAILURE);
@@ -30,15 +34,18 @@ void read_input(char input[MAX_INPUT_SIZE]) {
             perror("fflush");
             exit(EXIT_FAILURE);
         }
-        return;
+        return 0;
     }
+
     int len = strlen(input);
     // Ignore overflowed data
     if (len > 0 && input[len - 1] != '\n') {
         int c;
         while ((c = getchar()) != '\n' && c != EOF)
             ; // blah blah blah
+        return -1;
     }    
+    return len;
 }
 
 void handle_user_input(GameContext *ctx) {
@@ -46,7 +53,7 @@ void handle_user_input(GameContext *ctx) {
     char input[MAX_INPUT_SIZE];
 
     display_prompt();
-    read_input(input);
+    read_input(input, MAX_INPUT_SIZE);
     parse_input(input, &cmd);
     execute_command(cmd, ctx);
     free_command(&cmd);

@@ -30,7 +30,7 @@ long get_menu_opt() {
         char *endptr = NULL;
         printf("Enter option: ");
 
-        read_input(input);
+        read_input(input, MAX_INPUT_SIZE);
         input[strcspn(input, "\n")] = '\0'; // strip newline
         errno = 0;
         value = strtol(input, &endptr, 10);

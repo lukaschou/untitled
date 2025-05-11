@@ -7,7 +7,7 @@
 
 void display_prompt(void);
 void clear_screen(void);
-void read_input(char input[MAX_INPUT_SIZE]);
+int read_input(char *input, int max_size);
 void handle_user_input(GameContext *ctx);
 
 #endif

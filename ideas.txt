@@ -84,3 +84,7 @@ Welcome to Space Freight
 2. Load Game
 
 Enter option: 
+
+PLAYER =============================
+1. Location - Different color on legend for "home planet"
+2. Name
