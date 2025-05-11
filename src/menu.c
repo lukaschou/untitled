@@ -69,7 +69,6 @@ void handle_invalid_opt() {
 void execute_opt(long opt, GameContext *ctx) {
     switch (opt) {
         case NEWGAME:
-            printf("New game selected...\n");
             ctx->current_game_state = STATE_PLAYING;
             break;
     }
