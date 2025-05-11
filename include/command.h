@@ -1,6 +1,8 @@
 #ifndef COMMAND_H
 #define COMMAND_H
 
+#include "game_state.h"
+
 #define MAX_COMMAND_ARGS 10
 
 typedef struct {
@@ -8,11 +10,11 @@ typedef struct {
     char *argv[MAX_COMMAND_ARGS];
 } Command;
 
-typedef void (*CommandFunc)(Command cmd);
+typedef void (*CommandFunc)(Command cmd, GameContext *ctx);
 
 void parse_input(char *input, Command *cmd);
 void free_command(Command *cmd);
-void execute_command(Command cmd);
-void help_command(Command cmd);
+void execute_command(Command cmd, GameContext *ctx);
+void help_command(Command cmd, GameContext *ctx);
 
 #endif
