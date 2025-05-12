@@ -26,6 +26,7 @@ struct CommandPair command_map[] = {
     {"exit", c_exit},
     {"help", c_help},
     {"map", c_map},
+    {NULL, NULL}, // Null terminator
 };
 
 void execute_command(Command cmd, GameContext *ctx) {

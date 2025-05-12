@@ -18,7 +18,7 @@ void init_game(GameContext *ctx) {
 void write_intro_text(GameContext *ctx) {
     disable_echo();
     clear_screen();
-    typewriter_text_effect("[TESTINGTINSFINDSFKDSJHFJSKFHJDSKLHFJDSKLFHJDSKLFHJDSKLFHDJKLSFHJDSKLFHJDKSLHFJKDSHFJKDSLFHJDSKHFJDKSLINITIALIZING]\n", 50000);
+    typewriter_text_effect("[INITIALIZING]\n", 50000);
     usleep(1000000);
     printf("[BOOT SYSTEM COMPLETE]\n\n");
     usleep(600000);

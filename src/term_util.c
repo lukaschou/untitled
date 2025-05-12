@@ -1,4 +1,5 @@
 #include "term_util.h"
+#include "input.h"
 #include <termios.h>
 #include <unistd.h>
 #include <unistd.h>
@@ -20,11 +21,14 @@ void enable_echo() {
     tcsetattr(STDERR_FILENO, TCSANOW, &original);
 }
 
+/* Use this when we actually need to flush stdin, not when
+ * we are writing to a buffer into stdin (like fgets)
+ * */
 void flush_stdin() {
     int flags = fcntl(STDIN_FILENO, F_GETFL, 0);
     fcntl(STDIN_FILENO, F_SETFL, flags | O_NONBLOCK);
 
-    char buf[128];
+    char buf[MAX_INPUT_SIZE];
     while (read(STDIN_FILENO, buf, sizeof(buf)) > 0) {
         ;
     }
