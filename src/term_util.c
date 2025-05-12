@@ -13,7 +13,8 @@ void disable_echo() {
     struct termios raw;
     tcgetattr(STDIN_FILENO, &original);
     raw = original;
-    raw.c_lflag &= ~(ECHO | ICANON);
+    raw.c_iflag &= ~(IXON);
+    raw.c_lflag &= ~(ECHO | ICANON | IEXTEN | ISIG);
     tcsetattr(STDIN_FILENO, TCSANOW, &raw);
 }
 
