@@ -11,7 +11,7 @@ typedef struct {
 
 typedef struct {
     char name[MAX_NAME_SIZE];
-    int home_planet_coords[2];
+    Planet *home_planet; 
 } Player;
 
 typedef enum {

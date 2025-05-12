@@ -17,7 +17,12 @@ void c_map(Command cmd, GameContext *ctx) {
             if (!ctx->galaxy[i][j]) {
                 printf("* ");
             } else {
-                printf("\033[1;31m%c\033[0m ", legend++);
+                if (strcmp(ctx->galaxy[i][j]->name, ctx->player.home_planet->name) == 0) {
+                    printf("\033[1;32m%c\033[0m ", legend);
+                } else {
+                    printf("\033[1;31m%c\033[0m ", legend);
+                }
+                legend++;
             }
         }
         printf("\n");
@@ -28,7 +33,12 @@ void c_map(Command cmd, GameContext *ctx) {
     for (int i = 0; i < MAP_SIZE; i++) {
         for (int j = 0; j < MAP_SIZE; j++) {
             if (ctx->galaxy[i][j]) {
-                printf("\033[1;31m%c\033[0m: %s\n", key++, ctx->galaxy[i][j]->name);
+                if (strcmp(ctx->galaxy[i][j]->name, ctx->player.home_planet->name) == 0) {
+                    printf("\033[1;32m%c\033[0m: %s\n", key, ctx->galaxy[i][j]->name);
+                } else {
+                    printf("\033[1;31m%c\033[0m: %s\n", key, ctx->galaxy[i][j]->name);
+                }
+                key++;
             }
         }
     }
@@ -85,12 +95,17 @@ void generate_galaxy(GameContext *ctx) {
             if (!p) {
                 perror("calloc");
                 exit(EXIT_FAILURE);
-            }
+            } 
             p->name = planets_names[placed];
             p->coord[0] = x;
             p->coord[1] = y;
             planets[placed] = p;
             ctx->galaxy[x][y] = p;
+            // First planet is the "Home Planet"
+            if (placed == 0) {
+                printf("Setting home planet to %s\n", p->name);
+                ctx->player.home_planet = p;
+            }
             placed++;
         } else {
             attempts++;
