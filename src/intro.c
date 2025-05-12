@@ -18,13 +18,16 @@ void init_game(GameContext *ctx) {
 void write_intro_text(GameContext *ctx) {
     disable_echo();
     clear_screen();
-    typewriter_text_effect("[INITIALIZING]\n", 50000);
-    usleep(1000000);
-    printf("[BOOT SYSTEM COMPLETE]\n\n");
-    usleep(600000);
-    printf("STARHAUL LOGISTICS INTERFACE v4.9.17\n");
-    usleep(400000);
-    printf("USER | %s\n", ctx->player.name);
+    
+    typewriter_text_effect("[INITIALIZING SYSTEM...]\n", 50000);
+    usleep(100000);
+    typewriter_text_effect("[BOOT SEQUENCE COMPLETE]\n\n", 40000);
+    usleep(95000);
+    typewriter_text_effect("STARHAUL LOGISTICS INTERFACE v4.9.17\n", 3500);
+    typewriter_text_effect("WELCOME ", 30000);
+    typewriter_text_effect(ctx->player.name, 30000);
+    printf("\n");
+
     flush_stdin();
     enable_echo();
 }
@@ -38,9 +41,9 @@ void typewriter_text_effect(const char *str, int delay) {
 
     while (*str) {
         printf("%c", *str++);
-
-        int noise = (rand() % (2 * 10000 + 1) - 10000);
-        usleep(delay + noise);
+        int jitter = 100000;
+        int variation = abs(rand() % (2 * jitter + 1) - jitter);
+        usleep(delay + variation);
         if (fflush(stdout) == EOF) {
             perror("fflush");
             exit(EXIT_FAILURE);
