@@ -4,5 +4,6 @@
 #include "game_state.h"
 
 void init_game(GameContext *ctx);
+void write_intro_text(GameContext *ctx);
 
 #endif

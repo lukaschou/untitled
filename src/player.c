@@ -22,5 +22,4 @@ void create_name(GameContext *ctx) {
 
     // Null home planet for now...
     strcpy(ctx->player.name, trimmed_name);
-    printf("You are \033[1m%s\033[0m\n", ctx->player.name);
 }
