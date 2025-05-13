@@ -14,7 +14,7 @@ void disable_echo() {
     tcgetattr(STDIN_FILENO, &original);
     raw = original;
     raw.c_iflag &= ~(IXON);
-    raw.c_lflag &= ~(ECHO | ICANON | IEXTEN | ISIG);
+    raw.c_lflag &= ~(ECHO | ICANON | IEXTEN /*| ISIG */);
     tcsetattr(STDIN_FILENO, TCSANOW, &raw);
 }
 
