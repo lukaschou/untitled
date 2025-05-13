@@ -12,7 +12,7 @@ void init_game(GameContext *ctx) {
     srand(time(NULL));
     create_name(ctx);
     generate_galaxy(ctx);
-    write_intro_text(ctx);
+    // write_intro_text(ctx); // dev mode
     ctx->current_game_state = STATE_PLAYING;
 }
 
