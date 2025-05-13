@@ -32,6 +32,8 @@ void write_intro_text(GameContext *ctx) {
                            30000);
 
     usleep(1000000);
+    typewriter_text_effect("[\033[1mBEGIN TRANSMISSION\033[0m]\n\n", 40000);
+
     typewriter_text_effect("\033[1mACCOUNT:\033[0m 9X-773-ZA\n", 40000);
     typewriter_text_effect("\033[1mDEBTOR: \033[0m", 40000);
     typewriter_text_effect(ctx->player.name, 40000);
@@ -62,10 +64,11 @@ void write_intro_text(GameContext *ctx) {
         "While your account is delinquent [bank] has been authorized to seize "
         "50% of all credits earned through your shipping operations until your "
         "outstanding balance has been settled.\n\n",
-        8000);
+        10000
+    );
 
-    usleep(1000000);
-    typewriter_text_effect("\033[1mEND TRANSMISSION\033[0m\n", 40000);
+    usleep(100000);
+    typewriter_text_effect("[\033[1mEND TRANSMISSION\033[0m]\n\n", 40000);
 
     flush_stdin();
     enable_echo();
