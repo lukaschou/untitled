@@ -73,9 +73,7 @@ void generate_galaxy(GameContext *ctx) {
     int max_attempts = 1000;
     int min_distance = 5;
     Planet *planets[10];
-
-    srand(time(NULL));
-    
+ 
     while (placed < num_planets && attempts < max_attempts) {
         int x = rand() % MAP_SIZE;
         int y = rand() % MAP_SIZE;

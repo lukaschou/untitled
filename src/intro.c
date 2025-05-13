@@ -9,6 +9,7 @@
 #include <unistd.h>
 
 void init_game(GameContext *ctx) {
+    srand(time(NULL));
     create_name(ctx);
     generate_galaxy(ctx);
     write_intro_text(ctx);
@@ -78,8 +79,6 @@ void typewriter_text_effect(const char *str, int delay) {
     if (str == NULL) {
         return;
     }
-
-    srand(time(NULL));
 
     while (*str) {
         printf("%c", *str++);
